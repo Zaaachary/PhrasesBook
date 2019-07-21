@@ -63,6 +63,8 @@ class Book:
             phrase = self.input_phrase_command()
         self.quantity += 1
         self.phrases.append(phrase)
+        self.db['quantity'] = self.quantity
+        self.db['list'] = self.phrases
         self.db.sync()
 
     def output_phrase(self, method=''):
@@ -74,8 +76,7 @@ class Book:
                 i += 1
         else:
             return self.phrases
-            
-        
+               
     def get_phrase_by_index(self, index=0):
         return self.phrases[index]
 
@@ -89,6 +90,18 @@ class Book:
             print('修改成功')
         else:
             print('已取消')
+    
+    @staticmethod
+    def search_book():
+        book_list = []
+        file_list = os.listdir(r'./books')
+        for name in file_list:
+            if name.split('.')[0] in book_list:
+                continue
+            else:
+                book_list.append(name.split('.')[0])
+        return book_list
+        
         
         
 if __name__ == "__main__":
